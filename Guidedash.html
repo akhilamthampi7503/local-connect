@@ -179,6 +179,106 @@ display:none;
 display:block;
 }
 
+.popup{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.6);
+justify-content:center;
+align-items:center;
+z-index:999;
+}
+
+.popup-box{
+background:white;
+width:650px;
+max-height:90vh;
+overflow-y:auto;
+padding:30px;
+border-radius:12px;
+box-shadow:0 10px 25px rgba(0,0,0,0.3);
+animation:popupFade 0.4s;
+}
+
+.popup-box h2{
+text-align:center;
+margin-bottom:20px;
+color:#198754;
+}
+
+.guide-form h3{
+margin-top:20px;
+margin-bottom:10px;
+color:#198754;
+border-bottom:2px solid #eee;
+padding-bottom:5px;
+}
+
+.form-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+}
+
+.form-grid div{
+display:flex;
+flex-direction:column;
+}
+
+label{
+font-weight:600;
+font-size:14px;
+margin-bottom:4px;
+}
+
+input, textarea{
+padding:10px;
+border-radius:6px;
+border:1px solid #ccc;
+}
+
+textarea{
+resize:none;
+height:80px;
+}
+
+.save-btn{
+margin-top:20px;
+width:100%;
+padding:12px;
+background:#198754;
+color:white;
+border:none;
+border-radius:8px;
+font-size:16px;
+cursor:pointer;
+transition:0.3s;
+}
+
+.save-btn:hover{
+background:#157347;
+}
+
+@keyframes popupFade{
+from{
+opacity:0;
+transform:scale(0.8);
+}
+to{
+opacity:1;
+transform:scale(1);
+}
+}
+
+.required{
+color:red;
+font-weight:bold;
+margin-left:3px;
+}
+
 </style>
 </head>
 
@@ -193,7 +293,6 @@ display:block;
 <li onclick="showSection('schedule')"><i class="fa fa-calendar"></i> Tour Schedule</li>
 <li onclick="showSection('bookings')"><i class="fa fa-ticket"></i> Bookings</li>
 <li onclick="showSection('tourists')"><i class="fa fa-users"></i> Tourist Details</li>
-<li onclick="showSection('notifications')"><i class="fa fa-bell"></i> Notifications</li>
 <li onclick="showSection('profile')"><i class="fa fa-user"></i> Profile</li>
 <li onclick="logout()"><i class="fa fa-sign-out"></i> Logout</li>
 </ul>
@@ -342,20 +441,6 @@ Welcome to Kerala Tourism Guide Panel
 
 </div>
 
-<!-- NOTIFICATIONS -->
-
-<div id="notifications" class="section">
-
-<h2>Notifications</h2>
-
-<ul>
-<li>New booking request received</li>
-<li>Tour scheduled tomorrow</li>
-<li>Tourist confirmed booking</li>
-</ul>
-
-</div>
-
 <!-- PROFILE -->
 
 <div id="profile" class="section">
@@ -412,5 +497,111 @@ alert("Logging out...");
 
 </script>
 
+<div id="guidePopup" class="popup">
+
+<div class="popup-box">
+
+<h2>Guide Profile Setup</h2>
+
+<form class="guide-form" onsubmit="saveProfile(event)">
+
+<h3><i class="fa fa-user"></i> Personal Information</h3>
+
+<div class="form-grid">
+
+<div>
+<label>Full Name <span class="required">*</span></label>
+<input type="text" placeholder="Enter your name" required>
+</div>
+
+<div>
+<label>Phone Number <span class="required">*</span></label>
+<input type="tel" placeholder="Enter phone number" required>
+</div>
+
+<div>
+<label>Email <span class="required">*</span></label>
+<input type="email" placeholder="Enter email" required>
+</div>
+
+<div>
+<label>Location <span class="required">*</span></label>
+<input type="text" placeholder="City / District" required>
+</div>
+
+</div>
+
+<h3><i class="fa fa-map"></i> Experience Details</h3>
+
+<div class="form-grid">
+
+<div>
+<label>Tourist Places Expertise</label>
+<input type="text" placeholder="Munnar, Alleppey, Wayanad">
+</div>
+
+<div>
+<label>Years of Experience <span class="required">*</span></label>
+<input type="number" placeholder="Years" required>
+</div>
+
+<div>
+<label>Languages Known</label>
+<input type="text" placeholder="Malayalam, English, Hindi">
+</div>
+
+<div>
+<label>Short Bio</label>
+<textarea placeholder="Tell tourists about yourself"></textarea>
+</div>
+
+</div>
+
+<h3><i class="fa fa-file"></i> Upload Documents</h3>
+
+<div class="form-grid">
+
+<div>
+<label>Profile Photo <span class="required">*</span></label>
+<input type="file" required>
+</div>
+
+<div>
+<label>ID Proof <span class="required">*</span></label>
+<input type="file" required>
+</div>
+
+<div>
+<label>Guide License</label>
+<input type="file">
+</div>
+
+</div>
+
+<button class="save-btn">Save Profile</button>
+
+</form>
+
+</div>
+</div>
+
+<script>
+function saveProfile(event){
+event.preventDefault();
+
+localStorage.setItem("guideProfileSaved", "true");
+document.getElementById("guidePopup").style.display = "none";
+}
+
+window.onload = function(){
+if(localStorage.getItem("guideProfileSaved") !== "true"){
+document.getElementById("guidePopup").style.display = "flex";
+}else{
+document.getElementById("guidePopup").style.display = "none";
+}
+}
+
+</script>
 </body>
 </html>
+

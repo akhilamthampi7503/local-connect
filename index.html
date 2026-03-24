@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Kerala Tourism</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+scroll-behavior:smooth;
+}
+
+/* NAVBAR */
+
+nav{
+position:fixed;
+width:100%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px 60px;
+background:rgba(0,0,0,0.4);
+backdrop-filter:blur(6px);
+z-index:1000;
+}
+
+nav h2{
+color:white;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+margin-left:20px;
+padding:8px 18px;
+border-radius:6px;
+transition:0.3s;
+}
+
+.login-btn{
+background:#198754;
+}
+
+.register-btn{
+background:white;
+color:#198754;
+}
+
+nav a:hover{
+transform:scale(1.05);
+}
+
+/* HERO */
+
+.hero{
+height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+color:white;
+position:relative;
+}
+
+/* slideshow */
+
+.hero::before{
+content:"";
+position:absolute;
+width:100%;
+height:100%;
+background-size:cover;
+background-position:center;
+animation:slideShow 25s infinite;
+z-index:-2;
+}
+
+@keyframes slideShow{
+
+0%{background-image:url("https://images.unsplash.com/photo-1593697821252-0c9137d9fc45");}
+
+20%{background-image:url("https://images.unsplash.com/photo-1583241800698-87ad7c8dbbb5");}
+
+40%{background-image:url("https://images.unsplash.com/photo-1605649487212-47bdab064df7");}
+
+60%{background-image:url("https://images.unsplash.com/photo-1578659029999-95cbbfd4b7ab");}
+
+80%{background-image:url("https://images.unsplash.com/photo-1621416894569-0f39ed31d247");}
+
+100%{background-image:url("https://images.unsplash.com/photo-1593697821252-0c9137d9fc45");}
+
+}
+
+/* overlay */
+
+.hero::after{
+content:"";
+position:absolute;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.5);
+z-index:-1;
+}
+
+/* hero content */
+
+.hero-content{
+max-width:800px;
+animation:fadeUp 2s;
+}
+
+.hero h1{
+font-size:55px;
+margin-bottom:20px;
+}
+
+.hero p{
+font-size:18px;
+margin-bottom:30px;
+line-height:1.6;
+}
+
+.hero button{
+padding:12px 25px;
+margin:10px;
+border:none;
+border-radius:6px;
+background:#198754;
+color:white;
+cursor:pointer;
+transition:0.3s;
+}
+
+.hero button:hover{
+transform:scale(1.05);
+background:#157347;
+}
+
+@keyframes fadeUp{
+from{opacity:0; transform:translateY(40px);}
+to{opacity:1; transform:translateY(0);}
+}
+
+/* DESTINATIONS */
+
+.destinations{
+padding:80px 60px;
+background:#f5f7f3;
+text-align:center;
+}
+
+.destinations h2{
+color:#198754;
+margin-bottom:40px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:25px;
+}
+
+/* CARD */
+
+.card{
+position:relative;
+overflow:hidden;
+border-radius:12px;
+cursor:pointer;
+}
+
+.card img{
+width:100%;
+height:250px;
+object-fit:cover;
+transition:0.5s;
+}
+
+.card:hover img{
+transform:scale(1.2);
+}
+
+.card-title{
+position:absolute;
+bottom:0;
+background:rgba(0,0,0,0.6);
+color:white;
+width:100%;
+padding:10px;
+font-size:18px;
+}
+
+/* ABOUT */
+
+.about{
+padding:80px 60px;
+text-align:center;
+}
+
+.about h2{
+color:#198754;
+margin-bottom:20px;
+}
+
+.about p{
+max-width:800px;
+margin:auto;
+line-height:1.8;
+}
+
+/* FOOTER */
+
+footer{
+background:#14532d;
+color:white;
+text-align:center;
+padding:20px;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<nav>
+
+<h2>Kerala Tourism</h2>
+
+<div>
+<a href="login.html" class="login-btn">Login</a>
+<a href="register.html" class="register-btn">Register</a>
+</div>
+
+</nav>
+
+<!-- HERO -->
+
+<section class="hero">
+
+<div class="hero-content">
+
+<h1>Discover God's Own Country 🌴</h1>
+
+<p>
+Explore Kerala’s breathtaking backwaters, misty hills, wildlife sanctuaries,
+and golden beaches. Our platform connects tourists with local guides to create
+authentic travel experiences across Kerala.
+</p>
+
+<button onclick="document.querySelector('.destinations').scrollIntoView()">Explore Destinations</button>
+
+</div>
+
+</section>
+
+<!-- DESTINATIONS -->
+
+<section class="destinations">
+
+<h2>Popular Kerala Destinations</h2>
+
+<div class="grid">
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1593697821252-0c9137d9fc45">
+<div class="card-title">Alleppey Backwaters</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1605649487212-47bdab064df7">
+<div class="card-title">Munnar Hills</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1578659029999-95cbbfd4b7ab">
+<div class="card-title">Varkala Beach</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1583241800698-87ad7c8dbbb5">
+<div class="card-title">Wayanad Forest</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1621416894569-0f39ed31d247">
+<div class="card-title">Kochi City</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1605649487212-47bdab064df7">
+<div class="card-title">Tea Plantations</div>
+</div>
+
+</div>
+
+</section>
+
+<!-- ABOUT -->
+
+<section class="about">
+
+<h2>About Our Tourism Platform</h2>
+
+<p>
+This website is designed to help tourists explore the beauty of Kerala while
+connecting them with experienced local guides. Visitors can discover famous
+destinations, book tours, and experience authentic Kerala culture including
+backwater cruises, hill station adventures, wildlife exploration, and beach
+tourism.
+</p>
+
+</section>
+
+<footer>
+
+© 2026 Kerala Tourism Guide Platform 🌴
+
+</footer>
+
+</body>
+</html> 
