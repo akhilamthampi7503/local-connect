@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LocalConnect | Kerala Guide Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CSS STYLES --- */
+        :root {
+            --kerala-green: #14452F;
+            --kerala-light-green: #1a5a3d;
+            --bg-gray: #f8faf9;
+            --text-main: #2d3436;
+            --text-muted: #636e72;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(rgba(20, 69, 47, 0.85), rgba(20, 69, 47, 0.85)), 
+                        url('munnar.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .login-card {
+            background: white;
+            width: 100%;
+            max-width: 420px;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .header h1 {
+            color: var(--kerala-green);
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 8px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1.5px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .input-group input:focus {
+            border-color: var(--kerala-green);
+            box-shadow: 0 0 0 4px rgba(20, 69, 47, 0.1);
+        }
+
+        .helper-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            font-size: 13px;
+        }
+
+        .helper-row label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        .helper-row a {
+            color: var(--kerala-green);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .login-button {
+            width: 100%;
+            background-color: var(--kerala-green);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .login-button:hover {
+            background-color: var(--kerala-light-green);
+        }
+
+        .login-button:active {
+            transform: scale(0.98);
+        }
+
+        .footer-note {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .footer-note a {
+            color: var(--kerala-green);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        /* Success/Error message styling */
+        #message {
+            margin-top: 15px;
+            font-size: 13px;
+            text-align: center;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <div class="header">
+            <h1>LocalConnect</h1>
+            <p>Kerala Travel Guide Management System Portal</p>
+        </div>
+
+        <form id="loginForm">
+            <div class="input-group">
+                <label for="username">Username or Email</label>
+                <input type="text" id="username" placeholder="e.g. rahul_guide" required>
+            </div>
+
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="••••••••" required>
+            </div>
+
+            <div class="helper-row">
+                <label><input type="checkbox"> Remember me</label>
+                <a href="#">Forgot Password?</a>
+            </div>
+
+            <button type="submit" class="login-button" id="submitBtn">Login to Panel</button>
+            <div id="message"></div>
+        </form>
+
+        <div class="footer-note">
+            <a href="#">Register with LocalConnect</a>
+        </div>
+    </div>
+
+    <script>
+        /* --- JAVASCRIPT LOGIC --- */
+        const loginForm = document.getElementById('loginForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const messageDiv = document.getElementById('message');
+
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Simple UI feedback
+            submitBtn.textContent = 'Verifying...';
+            submitBtn.style.opacity = '0.8';
+            submitBtn.disabled = true;
+
+            const user = document.getElementById('username').value;
+            const pass = document.getElementById('password').value;
+
+            // Simulating a delay for a professional feel (network request simulation)
+            setTimeout(() => {
+                if (user && pass) {
+                    messageDiv.style.display = 'block';
+                    messageDiv.style.color = '#27ae60';
+                    messageDiv.textContent = 'Authentication successful! Redirecting...';
+                    
+                    // You can change 'dashboard.html' to your actual dashboard filename
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 1000);
+                } else {
+                    submitBtn.textContent = 'Login to Panel';
+                    submitBtn.style.opacity = '1';
+                    submitBtn.disabled = false;
+                    messageDiv.style.display = 'block';
+                    messageDiv.style.color = '#e74c3c';
+                    messageDiv.textContent = 'Please check your credentials.';
+                }
+            }, 1200);
+        });
+    </script>
+</body>
+</html>
