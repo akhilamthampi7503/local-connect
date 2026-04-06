@@ -55,11 +55,13 @@
             opacity: 0.8;
         }
 
-        .sidebar ul li:hover, .sidebar ul li.active {
-            background: rgba(255, 255, 255, 0.1);
-            opacity: 1;
-            border-left: 4px solid var(--kerala-accent);
-        }
+        /* --- THE ACTIVE STATE SHADE --- */
+.sidebar ul li.active {
+    background: rgba(255, 255, 255, 0.15); /* The white highlight shade */
+    opacity: 1;                            /* Full visibility */
+    border-left: 4px solid var(--kerala-accent); /* The green vertical line */
+    font-weight: 700;                      /* Makes text bolder when active */
+}
 
         /* --- MAIN CONTENT --- */
         .main-content {
@@ -216,6 +218,79 @@
 
         .section { display: none; }
         .section.active { display: block; }
+        /* ... (existing slider and sidebar CSS) ... */
+
+/* --- ADD VISITED PLACES STYLES HERE --- */
+.visited-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.visited-card {
+    position: relative;
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    border: 1px solid #e2e8f0;
+    transition: 0.3s;
+}
+
+.visited-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.visited-date {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: var(--kerala-green);
+    color: white;
+    padding: 5px 12px;
+    border-radius: 50px;
+    font-size: 11px;
+    font-weight: 700;
+    z-index: 5;
+}
+
+.review-btn {
+    width: 100%;
+    margin-top: 12px;
+    padding: 10px;
+    background: transparent;
+    border: 1.5px solid var(--kerala-green);
+    color: var(--kerala-green);
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.review-btn:hover {
+    background: var(--kerala-green);
+    color: white;
+}
+
+.visited-count {
+    font-size: 14px;
+    background: #f1f5f9;
+    padding: 4px 12px;
+    border-radius: 20px;
+    color: var(--text-muted);
+}
+
+.section-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    color: var(--kerala-green);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
     </style>
 </head>
 <body>
@@ -256,29 +331,35 @@
 </div>
 
         <div id="home" class="section active">
-            <div class="section-title">Recommended for You</div>
-            <div class="grid">
-                <div class="card">
-                    <img src="https://images.unsplash.com/photo-1590050752117-23a9d7fc217d?auto=format&fit=crop&w=500&q=80" class="card-img">
-                    <div class="card-body">
-                        <span class="tag">Nature</span>
-                        <h3>Munnar Tea Estates</h3>
-                        <p>Walk through the emerald clouds of Idukki's famous plantations.</p>
-                        <button class="book-btn" onclick="showTab('guides')">Find a Guide</button>
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=500&q=80" class="card-img">
-                    <div class="card-body">
-                        <span class="tag">Culture</span>
-                        <h3>Alleppey Backwaters</h3>
-                        <p>Experience the local life on a traditional non-motorized canoe.</p>
-                        <button class="book-btn" onclick="showTab('guides')">Find a Guide</button>
-                    </div>
-                </div>
+    <div class="section-title">
+        Places You Visited
+        <span class="visited-count">4 Locations</span>
+    </div>
+    
+    <div class="visited-grid">
+        <div class="visited-card">
+            <div class="visited-date">Oct 2025</div>
+            <img src="waterfall.jpg" class="card-img">
+            <div class="card-body">
+                <span class="tag verified"><i class="fas fa-check-circle"></i> Completed</span>
+                <h3>Athirappilly Falls</h3>
+                <p>Guided by: <b>Suresh Nair</b></p>
+                <button class="review-btn">Write a Review</button>
             </div>
         </div>
 
+        <div class="visited-card">
+            <div class="visited-date">Jan 2026</div>
+            <img src="varkala.jpg" class="card-img">
+            <div class="card-body">
+                <span class="tag verified"><i class="fas fa-check-circle"></i> Completed</span>
+                <h3>Varkala Cliff</h3>
+                <p>Guided by: <b>Meera K.</b></p>
+                <button class="review-btn">Write a Review</button>
+            </div>
+        </div>
+    </div>
+</div>
         <div id="guides" class="section">
             <div class="section-title">Verified Local Guides</div>
             <div class="grid">
@@ -328,19 +409,39 @@
 
     <script>
         function showTab(tabId) {
-            // Hide all sections
-            document.querySelectorAll('.section').forEach(section => {
-                section.classList.remove('active');
-            });
-            // Show selected section
-            document.getElementById(tabId).classList.add('active');
+    // 1. Hide all sections and remove active class
+    document.querySelectorAll('.section').forEach(section => {
+        section.classList.remove('active');
+    });
 
-            // Update sidebar active state
-            document.querySelectorAll('.sidebar li').forEach(li => {
-                li.classList.remove('active');
-            });
-            event.currentTarget.classList.add('active');
-        }
+    // 2. Show the target section
+    const targetSection = document.getElementById(tabId);
+    if (targetSection) {
+        targetSection.classList.add('active');
+    }
+
+    // 3. UPDATE SIDEBAR SHADE:
+    // Remove 'active' class from all sidebar items
+    document.querySelectorAll('.sidebar ul li').forEach(li => {
+        li.classList.remove('active');
+    });
+
+    // Find the sidebar item that matches the tabId and highlight it
+    // This works even if you click the "Explore Now" button!
+    const sidebarLinks = {
+        'home': 0,    // Dashboard is the 1st li
+        'places': 1,  // Explore Places is the 2nd li
+        'guides': 2,  // Find Guides is the 3rd li
+        'bookings': 3 // My Bookings is the 4th li
+    };
+
+    const index = sidebarLinks[tabId];
+    const allMenuItems = document.querySelectorAll('.sidebar ul li');
+    
+    if (allMenuItems[index]) {
+        allMenuItems[index].classList.add('active');
+    }
+}
 
         function bookGuide(name) {
             alert("Booking request sent to " + name + "! Check 'My Bookings' for updates.");
