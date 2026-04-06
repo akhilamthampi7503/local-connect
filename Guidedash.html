@@ -83,8 +83,8 @@
         .hero {
             height: 260px;
             border-radius: 20px;
-            background: linear-gradient(rgba(20, 69, 47, 0.6), rgba(20, 69, 47, 0.6)), 
-                        url('kerala1.jpg'); /* Using your local image */
+            background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), 
+url('kerala1.jpg'); /* Using your local image */
             background-size: cover;
             background-position: center;
             margin-bottom: 35px;
@@ -284,7 +284,49 @@
     color: #747d8c;
     display: inline-block;
 }
+/* Styling for Required Asterisk */
+.required {
+    color: #e74c3c;
+    font-weight: 800;
+    margin-left: 2px;
+}
 
+/* Form Helper Styles */
+.guide-form h3 {
+    color: var(--kerala-green);
+    margin: 25px 0 15px;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 2px solid #f1f1f1;
+    padding-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.form-grid label {
+    font-size: 11px;
+    color: #555;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+    display: block;
+}
+
+textarea {
+    min-height: 80px;
+    resize: none;
+    line-height: 1.5;
+}
+
+/* Smooth scroll for the popup */
+.popup-box::-webkit-scrollbar {
+    width: 6px;
+}
+.popup-box::-webkit-scrollbar-thumb {
+    background: var(--kerala-green);
+    border-radius: 10px;
+}
     </style>
 </head>
 
@@ -400,19 +442,76 @@
 
 <div id="guidePopup" class="popup">
     <div class="popup-box">
-        <h2>Local Expert Setup</h2>
+        <h2>Guide Profile Setup</h2>
+        <p>Your details help us verify your expertise and keep our tourists safe.</p>
+        
         <form class="guide-form" onsubmit="saveProfile(event)">
-            <h3><i class="fa fa-user"></i> Personal Information</h3>
+            
+            <h3><i class="fa fa-id-card"></i> Identity & Contact</h3>
             <div class="form-grid">
-                <div><label>Full Name</label><input type="text" required></div>
-                <div><label>Phone Number</label><input type="tel" required></div>
+                <div class="full-width">
+                    <label>Full Name (as per ID) <span class="required">*</span></label>
+                    <input type="text" placeholder="e.g. Rahul Nair" required>
+                </div>
+                <div>
+                    <label>WhatsApp Number <span class="required">*</span></label>
+                    <input type="tel" placeholder="+91 ..." required>
+                </div>
+                <div>
+                    <label>Emergency Contact <span class="required">*</span></label>
+                    <input type="tel" placeholder="Family/Friend Number" required>
+                </div>
+                <div class="full-width">
+                    <label>Upload ID Proof (PDF/JPG) <span class="required">*</span></label>
+                    <input type="file" required>
+                </div>
             </div>
-            <h3><i class="fa fa-map"></i> Expertise</h3>
+
+            <h3><i class="fa fa-award"></i> Expertise & Certification</h3>
             <div class="form-grid">
-                <div><label>Expert Districts</label><input type="text" placeholder="e.g. Idukki, Wayanad"></div>
-                <div><label>Experience (Years)</label><input type="number" required></div>
+                <div>
+                    <label>Base District <span class="required">*</span></label>
+                    <select required>
+                        <option value="">Select District</option>
+                        <option>Alappuzha</option><option>Idukki (Munnar)</option>
+                        <option>Wayanad</option><option>Kochi</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Govt. License No. (Optional)</label>
+                    <input type="text" placeholder="e.g. KL-TG-2024">
+                </div>
+                <div class="full-width">
+                    <label>Languages Spoken <span class="required">*</span></label>
+                    <input type="text" placeholder="e.g. Malayalam, English, Hindi, Arabic" required>
+                </div>
+                <div>
+                    <label>Years Active <span class="required">*</span></label>
+                    <input type="number" min="0" placeholder="Years" required>
+                </div>
+                <div>
+                    <label>Est. Daily Rate (₹) <span class="required">*</span></label>
+                    <input type="number" placeholder="Budget-friendly rate" required>
+                </div>
             </div>
-            <button class="save-btn">Complete Registration</button>
+
+            <h3><i class="fa fa-map-location-dot"></i> Your Local Knowledge</h3>
+            <div class="form-grid">
+                <div class="full-width">
+                    <label>Specialist Areas <span class="required">*</span></label>
+                    <input type="text" placeholder="e.g. Village walks, Kathakali history, Toddy shop tours" required>
+                </div>
+                <div class="full-width">
+                    <label>About You (Bio) <span class="required">*</span></label>
+                    <textarea placeholder="Describe your unique perspective of Kerala..." required></textarea>
+                </div>
+                <div class="full-width">
+                    <label>Profile Photo <span class="required">*</span></label>
+                    <input type="file" required>
+                </div>
+            </div>
+
+            <button class="save-btn">Save Profile</button>
         </form>
     </div>
 </div>
@@ -444,11 +543,19 @@
         document.getElementById("guidePopup").style.display = "none";
     }
 
-    window.onload = function(){
-        if(localStorage.getItem("guideProfileSaved") !== "true"){
-            document.getElementById("guidePopup").style.display = "flex";
-        }
+    window.onload = function() {
+    const isProfileSaved = localStorage.getItem("guideProfileSaved");
+    
+    console.log("Status of profile in storage:", isProfileSaved);
+
+    // If it's NOT true, show the popup
+    if (isProfileSaved !== "true") {
+        document.getElementById("guidePopup").style.display = "flex";
+    } else {
+        document.getElementById("guidePopup").style.display = "none";
     }
+}
+    
 </script>
 
 </body>
