@@ -31,6 +31,7 @@
             display: flex;
             flex-direction: column;
             transition: 0.3s;
+            z-index: 100;
         }
 
         .sidebar h2 {
@@ -55,13 +56,12 @@
             opacity: 0.8;
         }
 
-        /* --- THE ACTIVE STATE SHADE --- */
-.sidebar ul li.active {
-    background: rgba(255, 255, 255, 0.15); /* The white highlight shade */
-    opacity: 1;                            /* Full visibility */
-    border-left: 4px solid var(--kerala-accent); /* The green vertical line */
-    font-weight: 700;                      /* Makes text bolder when active */
-}
+        .sidebar ul li.active {
+            background: rgba(255, 255, 255, 0.15);
+            opacity: 1;
+            border-left: 4px solid var(--kerala-accent);
+            font-weight: 700;
+        }
 
         /* --- MAIN CONTENT --- */
         .main-content {
@@ -77,66 +77,51 @@
             margin-bottom: 30px;
         }
 
-        .notification-icon {
-            font-size: 20px;
-            color: var(--kerala-green);
-            cursor: pointer;
-            position: relative;
-        }
-
-        .notification-dot {
-            height: 10px; width: 10px;
-            background: #e74c3c;
-            border-radius: 50%;
-            position: absolute;
-            top: -2px; right: -2px;
-            border: 2px solid var(--bg-light);
-        }
-
-        /* --- HERO BANNER --- */
+        /* --- HERO BANNER (CENTERED) --- */
         .tourist-hero {
-    position: relative; /* Required to stack the slides */
-    height: 400px;      /* Increased size for better visuals */
-    border-radius: 24px;
-    overflow: hidden;   /* Hides the images not in use */
-    display: flex;
-    align-items: center;
-    margin-bottom: 40px;
-    box-shadow: 0 10px 30px rgba(20, 69, 47, 0.2);
-}
+            position: relative;
+            height: 350px;
+            border-radius: 24px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Centers horizontally */
+            text-align: center;      /* Centers text */
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(20, 69, 47, 0.2);
+        }
 
-.slide {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-    background-position: center;
-    opacity: 0;
-    transition: opacity 1s ease-in-out; /* The 3-second fade effect starts here */
-    z-index: 1;
-}
+        .slide {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            z-index: 1;
+        }
 
-.slide.active {
-    opacity: 1;
-    z-index: 2;
-}
+        .slide.active { opacity: 1; z-index: 2; }
 
-.hero-content {
-    position: relative;
-    z-index: 10; /* Keeps "Welcome to your Panel" text above the images */
-    padding-left: 40px;
-    color: white;
-}
-        .tourist-hero h1 { font-size: 32px; font-weight: 800; }
-        .tourist-hero p { font-size: 16px; opacity: 0.9; margin-top: 5px; }
+        /* --- FADED WRITING STYLE --- */
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            padding: 0 20px;
+            color: white;
+            /* Adjust this value (0.0 to 1.0) to control the fade */
+            opacity: 0.75; 
+        }
+
+        .tourist-hero h1 { font-size: 38px; font-weight: 800; margin-bottom: 10px; }
+        .tourist-hero p { font-size: 18px; max-width: 600px; margin: 0 auto; }
 
         /* --- GRID LAYOUTS --- */
         .section-title {
             font-size: 20px;
             font-weight: 700;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             color: var(--kerala-green);
             display: flex;
             justify-content: space-between;
@@ -152,23 +137,49 @@
 
         /* --- CARDS --- */
         .card {
-            background: white;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            transition: 0.3s;
-            border: 1px solid #f1f1f1;
-        }
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    transition: 0.3s;
+    border: 1px solid #f1f1f1;
+    /* The Fixes */
+    display: flex;
+    flex-direction: column;
+    height: 100%; 
+}
 
         .card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
 
-        .card-img { height: 180px; width: 100%; object-fit: cover; }
+        .card-img { 
+    height: 200px; /* This locks the height for every image */
+    width: 100%; 
+    object-fit: cover; /* This crops the image to fill the box instead of stretching it */
+    display: block;
+}
+       /* 1. The Body Container */
+.card-body { 
+    padding: 20px; 
+    flex-grow: 1; 
+    display: flex;
+    flex-direction: column; /* This allows us to use flex-grow on the child elements */
+}
 
-        .card-body { padding: 20px; }
+/* 2. The Heading */
+.card-body h3 { 
+    font-size: 18px; 
+    margin-bottom: 8px; 
+    color: var(--kerala-green); 
+}
 
-        .card-body h3 { font-size: 18px; margin-bottom: 8px; color: var(--kerala-green); }
-
-        .card-body p { font-size: 14px; color: var(--text-muted); margin-bottom: 15px; line-height: 1.5; }
+/* 3. The Paragraph (The Secret Sauce) */
+.card-body p { 
+    font-size: 14px; 
+    color: var(--text-muted); 
+    line-height: 1.5; 
+    flex-grow: 1; /* This pushes everything below it (the button) to the bottom */
+    margin-bottom: 20px; 
+}
 
         .tag {
             font-size: 11px;
@@ -180,117 +191,67 @@
             text-transform: uppercase;
         }
 
-        .book-btn {
+        /* --- BUTTONS --- */
+        .review-btn, .explore-btn {
             width: 100%;
-            padding: 12px;
-            background: var(--kerala-green);
-            color: white;
-            border: none;
-            border-radius: 12px;
+            margin-top: 12px;
+            padding: 10px;
+            background: transparent;
+            border: 1.5px solid var(--kerala-green);
+            color: var(--kerala-green);
+            border-radius: 10px;
             font-weight: 600;
             cursor: pointer;
             transition: 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
         }
 
-        .book-btn:hover { background: var(--kerala-accent); }
-
-        /* --- BOOKING STATUS TABLE --- */
-        .status-table {
-            background: white;
-            border-radius: 20px;
-            padding: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        .review-btn:hover, .explore-btn:hover {
+            background: var(--kerala-green);
+            color: white;
         }
-
-        table { width: 100%; border-collapse: collapse; }
-        th { text-align: left; padding: 15px; color: var(--text-muted); font-size: 13px; text-transform: uppercase; }
-        td { padding: 15px; border-top: 1px solid #f1f1f1; font-size: 14px; }
-
-        .badge {
-            padding: 5px 12px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 700;
-        }
-
-        .pending { background: #fff7ed; color: #c2410c; }
-        .confirmed { background: #f0fdf4; color: #15803d; }
 
         .section { display: none; }
         .section.active { display: block; }
-        /* ... (existing slider and sidebar CSS) ... */
 
-/* --- ADD VISITED PLACES STYLES HERE --- */
-.visited-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 30px;
-    margin-top: 20px;
-}
+        .visited-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+        }
 
-.visited-card {
-    position: relative;
-    background: white;
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    border: 1px solid #e2e8f0;
-    transition: 0.3s;
-}
+        .visited-card {
+            position: relative;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+            transition: 0.3s;
+        }
 
-.visited-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-}
+        .visited-date {
+            position: absolute;
+            top: 15px; right: 15px;
+            background: var(--kerala-green);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 700;
+            z-index: 5;
+        }
 
-.visited-date {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: var(--kerala-green);
-    color: white;
-    padding: 5px 12px;
-    border-radius: 50px;
-    font-size: 11px;
-    font-weight: 700;
-    z-index: 5;
-}
-
-.review-btn {
-    width: 100%;
-    margin-top: 12px;
-    padding: 10px;
-    background: transparent;
-    border: 1.5px solid var(--kerala-green);
-    color: var(--kerala-green);
-    border-radius: 10px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.review-btn:hover {
-    background: var(--kerala-green);
-    color: white;
-}
-
-.visited-count {
-    font-size: 14px;
-    background: #f1f5f9;
-    padding: 4px 12px;
-    border-radius: 20px;
-    color: var(--text-muted);
-}
-
-.section-title {
-    font-size: 20px;
-    font-weight: 700;
-    margin-bottom: 25px;
-    color: var(--kerala-green);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+        .visited-count {
+            font-size: 14px;
+            background: #f1f5f9;
+            padding: 4px 12px;
+            border-radius: 20px;
+            color: var(--text-muted);
+        }
     </style>
 </head>
 <body>
@@ -300,7 +261,7 @@
         <ul>
             <li class="active" onclick="showTab('home')"><i class="fas fa-th-large"></i> Dashboard</li>
             <li onclick="showTab('places')"><i class="fas fa-map-marked-alt"></i> Explore Places</li>
-            <li onclick="showTab('guides')"><i class="fas fa-user-tie"></i> Find Guides</li>
+            <li onclick="showTab('guides')"><i class="fas fa-user-friends"></i> My Guides</li>
             <li onclick="showTab('bookings')"><i class="fas fa-suitcase"></i> My Bookings</li>
             <li onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</li>
         </ul>
@@ -310,73 +271,111 @@
         <header>
             <div class="user-info">
                 <h2 id="welcome-text">Namaste, Traveller</h2>
-                <p style="color: var(--text-muted); font-size: 14px;">Where in Kerala are we going today?</p>
-            </div>
-            <div class="notification-icon">
-                <i class="fas fa-bell"></i>
-                <div class="notification-dot"></div>
+                <p style="color: var(--text-muted); font-size: 14px;">Welcome back to your Kerala travel panel.</p>
             </div>
         </header>
 
         <div class="tourist-hero" id="hero-slider">
-    <div class="slide active" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('waterfall.jpg');"></div>
-    <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('munnar1.jpg');"></div>
-    <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('varkala.jpg');"></div>
+            <div class="slide active" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('waterfall.jpg');"></div>
+            <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('munnar1.jpg');"></div>
+            <div class="slide" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('varkala.jpg');"></div>
 
-    <div class="hero-content">
-        <h1>Unlock Authentic Kerala</h1>
-        <p>Budget-friendly cultural experiences curated by locals.</p>
-        <button class="explore-btn" onclick="showTab('places')">Explore Now</button>
-    </div>
-</div>
+            <div class="hero-content">
+                <h1>Unlock Authentic Kerala</h1>
+                <p>Relive your budget-friendly cultural experiences curated by locals.</p>
+            </div>
+        </div>
 
         <div id="home" class="section active">
-    <div class="section-title">
-        Places You Visited
-        <span class="visited-count">4 Locations</span>
-    </div>
-    
-    <div class="visited-grid">
-        <div class="visited-card">
-            <div class="visited-date">Oct 2025</div>
-            <img src="waterfall.jpg" class="card-img">
-            <div class="card-body">
-                <span class="tag verified"><i class="fas fa-check-circle"></i> Completed</span>
-                <h3>Athirappilly Falls</h3>
-                <p>Guided by: <b>Suresh Nair</b></p>
-                <button class="review-btn">Write a Review</button>
+            <div class="section-title">
+                Places You Visited
+                <span class="visited-count">4 Locations</span>
+            </div>
+            
+            <div class="visited-grid">
+                <div class="visited-card">
+                    <div class="visited-date">Oct 2025</div>
+                    <img src="waterfall.jpg" class="card-img">
+                    <div class="card-body">
+                        <span class="tag verified"><i class="fas fa-check-circle"></i> Completed</span>
+                        <h3>Athirappilly Falls</h3>
+                        <p>Guided by: <b>Suresh Nair</b></p>
+                        <button class="review-btn">Write a Review</button>
+                    </div>
+                </div>
+
+                <div class="visited-card">
+                    <div class="visited-date">Jan 2026</div>
+                    <img src="varkala.jpg" class="card-img">
+                    <div class="card-body">
+                        <span class="tag verified"><i class="fas fa-check-circle"></i> Completed</span>
+                        <h3>Varkala Cliff</h3>
+                        <p>Guided by: <b>Meera K.</b></p>
+                        <button class="review-btn">Write a Review</button>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="visited-card">
-            <div class="visited-date">Jan 2026</div>
-            <img src="varkala.jpg" class="card-img">
-            <div class="card-body">
-                <span class="tag verified"><i class="fas fa-check-circle"></i> Completed</span>
-                <h3>Varkala Cliff</h3>
-                <p>Guided by: <b>Meera K.</b></p>
-                <button class="review-btn">Write a Review</button>
+        <div id="places" class="section">
+            <div class="section-title">Explore New Destinations</div>
+            <div class="grid">
+                <div class="card">
+                    <img src="munnar2.jpg" class="card-img">
+                    <div class="card-body">
+                        <span class="tag">Nature</span>
+                        <h3>Munnar Hills</h3>
+                        <p>Explore the rolling tea plantations, Eravikulam National Park, and the misty peaks of the Western Ghats.</p>
+                        <button class="explore-btn">View Details</button>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="alappuzha.jpg" class="card-img">
+                    <div class="card-body">
+                        <span class="tag">Backwaters</span>
+                        <h3>Alappuzha Backwaters</h3>
+                        <p>Experience the "Venice of the East" with a traditional houseboat cruise through serene canals and lagoons.</p>
+                        <button class="explore-btn">View Details</button>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="kochi.jpg" class="card-img">
+                    <div class="card-body">
+                        <span class="tag">Culture</span>
+                        <h3>Fort Kochi</h3>
+                        <p>A blend of history and art featuring Chinese fishing nets, colonial architecture, and vibrant street murals.</p>
+                        <button class="explore-btn">View Details</button>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="thekkadi.jpg" class="card-img">
+                    <div class="card-body">
+                        <span class="tag">Wildlife</span>
+                        <h3>Thekkady (Periyar)</h3>
+                        <p>Home to the Periyar Wildlife Sanctuary. Enjoy bamboo rafting and elephant sightings in the wild forest.</p>
+                        <button class="explore-btn">View Details</button>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
+
         <div id="guides" class="section">
-            <div class="section-title">Verified Local Guides</div>
+            <div class="section-title">Guides You Worked With</div>
             <div class="grid">
                 <div class="card">
                     <div class="card-body" style="text-align: center;">
-                        <img src="https://i.pravatar.cc/150?img=12" style="width: 80px; border-radius: 50%; margin-bottom: 15px;">
+                        <img src="https://i.pravatar.cc/150?img=12" style="width: 100px; height: 100px; border-radius: 50%; margin-bottom: 15px; object-fit: cover; border: 3px solid var(--kerala-accent);">
                         <h3>Suresh Nair</h3>
-                        <p>Expert in Alleppey history & boat tours. <br><b>₹800/Day</b></p>
-                        <button class="book-btn" onclick="bookGuide('Suresh Nair')">Book Now</button>
+                        <p style="margin-bottom: 10px;">Trip: Alleppey Backwaters<br><span class="tag">Oct 2025</span></p>
+                        <button class="review-btn">Write a Review</button>
                     </div>
                 </div>
                 <div class="card">
                     <div class="card-body" style="text-align: center;">
-                        <img src="https://i.pravatar.cc/150?img=52" style="width: 80px; border-radius: 50%; margin-bottom: 15px;">
+                        <img src="https://i.pravatar.cc/150?img=52" style="width: 100px; height: 100px; border-radius: 50%; margin-bottom: 15px; object-fit: cover; border: 3px solid var(--kerala-accent);">
                         <h3>Meera K.</h3>
-                        <p>Munnar Trekking Specialist. <br><b>₹1000/Day</b></p>
-                        <button class="book-btn" onclick="bookGuide('Meera K.')">Book Now</button>
+                        <p style="margin-bottom: 10px;">Trip: Munnar Tea Gardens<br><span class="tag">Jan 2026</span></p>
+                        <button class="review-btn">Write a Review</button>
                     </div>
                 </div>
             </div>
@@ -399,7 +398,7 @@
                             <td>Suresh Nair</td>
                             <td>Backwater Village Tour</td>
                             <td>12 April 2026</td>
-                            <td><span class="badge confirmed">Confirmed</span></td>
+                            <td><span class="badge confirmed" style="background: #f0fdf4; color: #15803d; padding: 5px 12px; border-radius: 6px; font-weight: 700;">Confirmed</span></td>
                         </tr>
                     </tbody>
                 </table>
@@ -409,46 +408,32 @@
 
     <script>
         function showTab(tabId) {
-    // 1. Hide all sections and remove active class
-    document.querySelectorAll('.section').forEach(section => {
-        section.classList.remove('active');
-    });
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
 
-    // 2. Show the target section
-    const targetSection = document.getElementById(tabId);
-    if (targetSection) {
-        targetSection.classList.add('active');
-    }
+            const targetSection = document.getElementById(tabId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
 
-    // 3. UPDATE SIDEBAR SHADE:
-    // Remove 'active' class from all sidebar items
-    document.querySelectorAll('.sidebar ul li').forEach(li => {
-        li.classList.remove('active');
-    });
+            document.querySelectorAll('.sidebar ul li').forEach(li => {
+                li.classList.remove('active');
+            });
 
-    // Find the sidebar item that matches the tabId and highlight it
-    // This works even if you click the "Explore Now" button!
-    const sidebarLinks = {
-        'home': 0,    // Dashboard is the 1st li
-        'places': 1,  // Explore Places is the 2nd li
-        'guides': 2,  // Find Guides is the 3rd li
-        'bookings': 3 // My Bookings is the 4th li
-    };
+            const sidebarLinks = {
+                'home': 0,
+                'places': 1,
+                'guides': 2,
+                'bookings': 3
+            };
 
-    const index = sidebarLinks[tabId];
-    const allMenuItems = document.querySelectorAll('.sidebar ul li');
-    
-    if (allMenuItems[index]) {
-        allMenuItems[index].classList.add('active');
-    }
-}
-
-        function bookGuide(name) {
-            alert("Booking request sent to " + name + "! Check 'My Bookings' for updates.");
-            // Logic to add to table
-            const list = document.getElementById('booking-list');
-            const row = `<tr><td>${name}</td><td>Culture Walk</td><td>TBD</td><td><span class="badge pending">Pending</span></td></tr>`;
-            list.innerHTML += row;
+            const index = sidebarLinks[tabId];
+            const allMenuItems = document.querySelectorAll('.sidebar ul li');
+            
+            if (allMenuItems[index]) {
+                allMenuItems[index].classList.add('active');
+            }
         }
 
         function logout() {
@@ -456,18 +441,17 @@
                 window.location.href = "login.html";
             }
         }
-        // Add this inside your <script> tags
-let currentSlideIndex = 0;
-const allSlides = document.querySelectorAll('.slide');
 
-function rotateSlides() {
-    allSlides[currentSlideIndex].classList.remove('active');
-    currentSlideIndex = (currentSlideIndex + 1) % allSlides.length;
-    allSlides[currentSlideIndex].classList.add('active');
-}
+        let currentSlideIndex = 0;
+        const allSlides = document.querySelectorAll('.slide');
 
-// 3000ms = 3 Seconds
-setInterval(rotateSlides, 3000);
+        function rotateSlides() {
+            allSlides[currentSlideIndex].classList.remove('active');
+            currentSlideIndex = (currentSlideIndex + 1) % allSlides.length;
+            allSlides[currentSlideIndex].classList.add('active');
+        }
+
+        setInterval(rotateSlides, 3000);
     </script>
 </body>
 </html>
