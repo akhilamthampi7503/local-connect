@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LocalConnect | Admin Central</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .nav-link { cursor: pointer; transition: all 0.2s; border-bottom: 2px solid transparent; }
+        .nav-link.active { color: #34d399; border-color: #34d399; }
+        .page-section { display: none; }
+        .page-section.active { display: block; animation: fadeIn 0.3s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        /* Dropdown custom shadow */
+        .dropdown-shadow { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
+        
+        /* Glassy effect for the Admin tag */
+        .glass-tag { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(4px); border: 1px solid rgba(255, 255, 255, 0.2); }
+    </style>
+</head>
+<body>
+
+    <nav class="bg-slate-900 text-white sticky top-0 z-50 shadow-xl border-b border-emerald-500/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center space-x-10">
+                    <div class="flex-shrink-0 flex items-center space-x-3">
+                        <span class="text-2xl font-bold bg-gradient-to-r from-emerald-400 to-teal-300 bg-clip-text text-transparent cursor-pointer" onclick="showPage('overview')">LocalConnect</span>
+                        <span class="glass-tag text-[10px] uppercase tracking-widest text-emerald-300 px-2 py-0.5 rounded font-bold shadow-inner">Admin</span>
+                    </div>
+                    
+                    <div class="hidden md:flex space-x-8 text-sm font-medium">
+                        <a onclick="showPage('overview')" id="link-overview" class="nav-link active py-5">Overview</a>
+                        <a onclick="showPage('guides')" id="link-guides" class="nav-link py-5">Guides</a>
+                        <a onclick="showPage('tourists')" id="link-tourists" class="nav-link py-5">Tourists</a>
+                        <a onclick="showPage('bookings')" id="link-bookings" class="nav-link py-5">Bookings</a>
+                        <a onclick="showPage('kerala')" id="link-kerala" class="nav-link py-5">Kerala Hub</a>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-5">
+                    
+                    <div class="relative hidden lg:block">
+                        <input type="text" id="globalSearch" onkeyup="filterGuides()" placeholder="Search guide or district..." 
+                               class="bg-slate-800 border border-slate-700 text-xs rounded-full py-2 px-4 w-48 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all">
+                    </div>
+
+                    <div class="relative">
+                        <button onclick="toggleNotifications()" class="p-2 text-slate-400 hover:text-white transition relative">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                            <span id="notif-badge" class="absolute top-2 right-2 h-2 w-2 bg-red-500 rounded-full border border-slate-900"></span>
+                        </button>
+                        
+                        <div id="notif-dropdown" class="hidden absolute right-0 mt-3 w-72 bg-white rounded-xl text-slate-800 dropdown-shadow z-50 border border-slate-200 overflow-hidden">
+                            <div class="p-3 border-b border-slate-100 font-bold text-xs flex justify-between bg-slate-50">
+                                <span>Recent Alerts</span>
+                                <button onclick="clearNotifs()" class="text-emerald-600 hover:underline">Clear</button>
+                            </div>
+                            <div class="max-h-60 overflow-y-auto text-xs">
+                                <div class="p-3 border-b border-slate-50 hover:bg-emerald-50 cursor-pointer">
+                                    <p class="font-bold">New Guide Application</p>
+                                    <p class="text-slate-500">Rahul Nair from Munnar requested verification.</p>
+                                </div>
+                                <div class="p-3 border-b border-slate-50 hover:bg-emerald-50 cursor-pointer">
+                                    <p class="font-bold">System Update</p>
+                                    <p class="text-slate-500">Peak season alert active for Alleppey.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relative group">
+                        <div class="flex items-center space-x-3 cursor-pointer pl-4 border-l border-slate-700">
+                            <div class="text-right hidden sm:block">
+                                <p class="text-xs font-bold text-white">Abhijith R.</p>
+                                <p class="text-[10px] text-emerald-400">Super Admin</p>
+                            </div>
+                            <div class="w-9 h-9 rounded-full bg-emerald-500 flex items-center justify-center font-bold text-white border-2 border-emerald-500/50">A</div>
+                        </div>
+                        <div class="hidden group-hover:block absolute right-0 w-44 bg-white rounded-xl mt-0 dropdown-shadow border border-slate-200 py-2 z-50">
+                            <a href="#" class="block px-4 py-2 text-xs text-slate-700 hover:bg-emerald-50 transition">Account Settings</a>
+                            <a href="#" class="block px-4 py-2 text-xs text-slate-700 hover:bg-emerald-50 transition">Security</a>
+                            <hr class="my-1 border-slate-100">
+                            <a href="#" class="block px-4 py-2 text-xs text-red-600 font-bold hover:bg-red-50 transition">Logout System</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <div id="page-overview" class="page-section active">
+            <h2 class="text-2xl font-bold text-slate-800 mb-6">Admin Insights</h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <p class="text-slate-500 text-sm">Total Guides</p>
+                    <h3 class="text-3xl font-bold text-slate-800">1,284</h3>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <p class="text-slate-500 text-sm">Active Tourists</p>
+                    <h3 class="text-3xl font-bold text-slate-800">8,402</h3>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <p class="text-slate-500 text-sm">Revenue</p>
+                    <h3 class="text-3xl font-bold text-emerald-600">₹42.5k</h3>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <p class="text-slate-500 text-sm">New Requests</p>
+                    <h3 class="text-3xl font-bold text-orange-500">12</h3>
+                </div>
+            </div>
+            <div class="bg-emerald-900 text-white p-8 rounded-3xl relative overflow-hidden shadow-2xl">
+                <div class="relative z-10">
+                    <h3 class="text-2xl font-bold mb-2">Peak Season Alert</h3>
+                    <p class="text-emerald-200 max-w-md">Munnar and Alleppey are seeing a 40% increase in bookings. Monitor guide availability in these districts.</p>
+                </div>
+                <div class="absolute right-[-20px] top-[-20px] opacity-10 text-[150px] font-bold italic">KERALA</div>
+            </div>
+        </div>
+
+        <div id="page-guides" class="page-section">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-slate-800">Manage Guides</h2>
+                <button class="bg-slate-900 text-white px-4 py-2 rounded-lg text-sm">Export List</button>
+            </div>
+            <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden">
+                <table class="w-full text-left text-sm" id="guideTable">
+                    <thead class="bg-slate-50 text-slate-400 uppercase font-semibold">
+                        <tr><th class="px-6 py-4">Name</th><th class="px-6 py-4">District</th><th class="px-6 py-4">Status</th><th class="px-6 py-4">Action</th></tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        <tr><td class="px-6 py-4 font-medium">Rahul Nair</td><td class="px-6 py-4 text-slate-500">Munnar</td><td class="px-6 py-4 text-emerald-500">Verified</td><td class="px-6 py-4"><button class="text-blue-500 underline">View Portfolio</button></td></tr>
+                        <tr><td class="px-6 py-4 font-medium">Anand V.</td><td class="px-6 py-4 text-slate-500">Kochi</td><td class="px-6 py-4 text-orange-500">Pending</td><td class="px-6 py-4"><button class="text-blue-500 underline">Review Docs</button></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="page-tourists" class="page-section">
+            <h2 class="text-2xl font-bold text-slate-800 mb-6">Tourist Database</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 flex justify-between items-center">
+                    <div><p class="font-bold">Kevin Joseph</p><p class="text-xs text-slate-400">kevin@example.com</p></div>
+                    <span class="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-xs">Active</span>
+                </div>
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 flex justify-between items-center">
+                    <div><p class="font-bold">Sarah Smith</p><p class="text-xs text-slate-400">sarah@example.com</p></div>
+                    <span class="bg-slate-100 text-slate-600 px-3 py-1 rounded-full text-xs">Offline</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="page-bookings" class="page-section">
+            <h2 class="text-2xl font-bold text-slate-800 mb-6">Recent Bookings</h2>
+            <div class="bg-white rounded-2xl border border-slate-200 p-6">
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between p-4 bg-slate-50 rounded-xl">
+                        <div class="flex space-x-4">
+                            <div class="bg-emerald-500 text-white px-3 py-1 rounded text-xs flex items-center">REF #2045</div>
+                            <p class="text-sm font-semibold">Munnar Tea Garden Tour - 3 People</p>
+                        </div>
+                        <p class="text-sm font-bold text-slate-800">₹4,500</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="page-kerala" class="page-section">
+            <h2 class="text-2xl font-bold text-slate-800 mb-6">Manage Kerala Hub</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+                    <img src="https://images.unsplash.com/photo-1593693397690-362ae9666ec3?auto=format&fit=crop&w=400&q=80" class="h-32 w-full object-cover">
+                    <div class="p-4">
+                        <h4 class="font-bold text-slate-800">Alleppey</h4>
+                        <p class="text-xs text-slate-500">12 Active Houseboats</p>
+                        <button class="mt-3 text-emerald-600 text-xs font-bold">Edit Details →</button>
+                    </div>
+                </div>
+                <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+                    <img src="https://images.unsplash.com/photo-1543731068-7e0f5beff43a?auto=format&fit=crop&w=400&q=80" class="h-32 w-full object-cover">
+                    <div class="p-4">
+                        <h4 class="font-bold text-slate-800">Wayanad</h4>
+                        <p class="text-xs text-slate-500">8 Trekking Routes</p>
+                        <button class="mt-3 text-emerald-600 text-xs font-bold">Edit Details →</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // 1. Navigation Logic
+        function showPage(pageId) {
+            document.querySelectorAll('.page-section').forEach(page => page.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+            const selectedPage = document.getElementById('page-' + pageId);
+            if(selectedPage) selectedPage.classList.add('active');
+            const selectedLink = document.getElementById('link-' + pageId);
+            if(selectedLink) selectedLink.classList.add('active');
+        }
+
+        // 2. Notification Toggle Logic
+        function toggleNotifications() {
+            document.getElementById('notif-dropdown').classList.toggle('hidden');
+        }
+
+        function clearNotifs() {
+            document.getElementById('notif-badge').classList.add('hidden');
+            alert("Notifications Cleared");
+        }
+
+        // 3. Search Logic (Filters Guide Table)
+        function filterGuides() {
+            showPage('guides'); // Switch to guide page automatically when searching
+            let input = document.getElementById("globalSearch").value.toUpperCase();
+            let table = document.getElementById("guideTable");
+            let tr = table.getElementsByTagName("tr");
+
+            for (let i = 1; i < tr.length; i++) {
+                let tdName = tr[i].getElementsByTagName("td")[0];
+                let tdDistrict = tr[i].getElementsByTagName("td")[1];
+                if (tdName || tdDistrict) {
+                    let txtValue = (tdName.textContent || tdName.innerText) + " " + (tdDistrict.textContent || tdDistrict.innerText);
+                    tr[i].style.display = txtValue.toUpperCase().indexOf(input) > -1 ? "" : "none";
+                }
+            }
+        }
+
+        // Close dropdown if user clicks outside
+        window.onclick = function(event) {
+            if (!event.target.closest('.relative')) {
+                document.getElementById('notif-dropdown').classList.add('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
