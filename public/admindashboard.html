@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Dashboard</title>
+  <style>
+    body { font-family: Arial; background:#222; color:white; }
+    .card { background:#333; padding:15px; margin:10px; border-radius:10px; }
+  </style>
+</head>
+<body>
+
+<h2>Admin Dashboard</h2>
+
+<div class="card">
+  <h3>All Users</h3>
+  <div id="users"></div>
+</div>
+
+<div class="card">
+  <h3>All Bookings</h3>
+  <div id="bookings"></div>
+</div>
+
+<script>
+const token = localStorage.getItem("token");
+
+/* USERS */
+fetch("http://localhost:5000/api/admin/users", {
+  headers: { Authorization: token }
+})
+.then(res=>res.json())
+.then(data=>{
+  let html="";
+  data.forEach(u=>{
+    html += `<p>${u.name} (${u.role})</p>`;
+  });
+  document.getElementById("users").innerHTML = html;
+});
+
+/* BOOKINGS */
+fetch("http://localhost:5000/api/admin/bookings", {
+  headers: { Authorization: token }
+})
+.then(res=>res.json())
+.then(data=>{
+  let html="";
+  data.forEach(b=>{
+    html += `<p>Booking ${b.id} - ${b.status}</p>`;
+  });
+  document.getElementById("bookings").innerHTML = html;
+});
+</script>
+
+</body>
+</html>

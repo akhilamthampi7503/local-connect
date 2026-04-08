@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tourist Dashboard</title>
+  <style>
+    body { font-family: Arial; background:#f5f5f5; }
+    .card { background:white; padding:15px; margin:10px; border-radius:10px; }
+    button { padding:8px; background:#007bff; color:white; border:none; }
+  </style>
+</head>
+<body>
+
+<h2>Tourist Dashboard</h2>
+
+<div class="card">
+  <h3>Available Guides</h3>
+  <div id="guides"></div>
+</div>
+
+<script>
+const token = localStorage.getItem("token");
+
+fetch("http://localhost:5000/api/tourist/guides", {
+  headers: { Authorization: token }
+})
+.then(res => res.json())
+.then(data => {
+  let html = "";
+  data.forEach(g => {
+    html += `
+      <div>
+        <p>Guide ID: ${g.id}</p>
+        <p>Location: ${g.location}</p>
+        <button onclick="book(${g.id})">Book</button>
+      </div><hr>
+    `;
+  });
+  document.getElementById("guides").innerHTML = html;
+});
+
+function book(id){
+  fetch("http://localhost:5000/api/tourist/book", {
+    method: "POST",
+    headers: {
+      "Content-Type":"application/json",
+      Authorization: token
+    },
+    body: JSON.stringify({ guide_id:id, date:"2026-04-10" })
+  })
+  .then(res=>res.json())
+  .then(data=>alert("Booked!"));
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Guide Dashboard</title>
+  <style>
+    body { font-family: Arial; background:#eef; }
+    .card { background:white; padding:15px; margin:10px; border-radius:10px; }
+    button { padding:6px; margin:5px; }
+  </style>
+</head>
+<body>
+
+<h2>Guide Dashboard</h2>
+
+<div class="card">
+  <h3>Booking Requests</h3>
+  <div id="bookings"></div>
+</div>
+
+<script>
+const token = localStorage.getItem("token");
+
+fetch("http://localhost:5000/api/guide/bookings", {
+  headers: { Authorization: token }
+})
+.then(res => res.json())
+.then(data => {
+  let html = "";
+  data.forEach(b => {
+    html += `
+      <div>
+        <p>Booking ID: ${b.id}</p>
+        <p>Date: ${b.date}</p>
+        <button onclick="update(${b.id}, 'accepted')">Accept</button>
+        <button onclick="update(${b.id}, 'rejected')">Reject</button>
+      </div><hr>
+    `;
+  });
+  document.getElementById("bookings").innerHTML = html;
+});
+
+function update(id, status){
+  fetch("http://localhost:5000/api/guide/booking/" + id, {
+    method: "PUT",
+    headers: {
+      "Content-Type":"application/json",
+      Authorization: token
+    },
+    body: JSON.stringify({ status })
+  })
+  .then(res=>res.json())
+  .then(()=>alert("Updated"));
+}
+</script>
+
+</body>
+</html>
