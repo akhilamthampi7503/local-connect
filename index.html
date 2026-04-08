@@ -1,328 +1,404 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Kerala Tourism</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Connect | Discover Kerala</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0a367a;
+            --secondary: #00838f;
+            --dark: #111111;
+            --light: #f8f9fa;
+        }
 
-<style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Segoe UI',sans-serif;
-scroll-behavior:smooth;
-}
+        body {
+            background-color: var(--light);
+            color: #333;
+            font-family: 'Inter', sans-serif; /* Clean body font */
+        }
 
-/* NAVBAR */
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif; /* Professional heading font */
+        }
 
-nav{
-position:fixed;
-width:100%;
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:15px 60px;
-background:rgba(0,0,0,0.4);
-backdrop-filter:blur(6px);
-z-index:1000;
-}
+        /* --- Navigation --- */
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
 
-nav h2{
-color:white;
-}
+        header h1 {
+            font-size: 2rem;
+            letter-spacing: 0.5px;
+        }
 
-nav a{
-color:white;
-text-decoration:none;
-margin-left:20px;
-padding:8px 18px;
-border-radius:6px;
-transition:0.3s;
-}
+        nav button {
+            background: transparent;
+            border: 1px solid white;
+            color: white;
+            padding: 0.5rem 1.5rem;
+            margin-left: 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-weight: 500;
+            font-family: 'Inter', sans-serif;
+            transition: 0.3s;
+        }
 
-.login-btn{
-background:#198754;
-}
+        nav button:hover {
+            background: white;
+            color: var(--primary);
+        }
 
-.register-btn{
-background:white;
-color:#198754;
-}
+        /* --- Hero Section --- */
+        .hero {
+            height: 80vh;
+            /* Real image of Kerala Backwaters at dusk */
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)), 
+                        url('https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=1920&q=80') center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 0 20px;
+        }
 
-nav a:hover{
-transform:scale(1.05);
-}
+        .hero h2 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
+        }
 
-/* HERO */
+        .hero p {
+            font-size: 1.2rem;
+            font-weight: 300;
+            max-width: 700px;
+            text-shadow: 1px 1px 5px rgba(0,0,0,0.8);
+            line-height: 1.6;
+        }
 
-.hero{
-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
-text-align:center;
-color:white;
-position:relative;
-}
+        /* --- Website Details --- */
+        .details {
+            padding: 6rem 5%;
+            text-align: center;
+            background: white;
+        }
 
-/* slideshow */
+        .details h3 {
+            font-size: 2.8rem;
+            color: var(--primary);
+            margin-bottom: 25px;
+        }
 
-.hero::before{
-content:"";
-position:absolute;
-width:100%;
-height:100%;
-background-size:cover;
-background-position:center;
-animation:slideShow 25s infinite;
-z-index:-2;
-}
+        .details p {
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto 20px auto;
+            color: #444;
+            font-size: 1.1rem;
+        }
 
-@keyframes slideShow{
+        /* --- Cinematic Reels & Color Graded Stills Gallery --- */
+        .gallery-section {
+            background: var(--dark);
+            color: white;
+            padding: 6rem 5%;
+            text-align: center;
+        }
 
-0%{background-image:url("https://images.unsplash.com/photo-1593697821252-0c9137d9fc45");}
+        .gallery-section h3 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            color: #e0f2f1;
+            letter-spacing: 1px;
+        }
 
-20%{background-image:url("https://images.unsplash.com/photo-1583241800698-87ad7c8dbbb5");}
+        .gallery-section p {
+            margin-bottom: 50px;
+            color: #aaa;
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
 
-40%{background-image:url("https://images.unsplash.com/photo-1605649487212-47bdab064df7");}
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
 
-60%{background-image:url("https://images.unsplash.com/photo-1578659029999-95cbbfd4b7ab");}
+        .card {
+            background: #000;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+            transition: transform 0.4s ease;
+            position: relative;
+        }
 
-80%{background-image:url("https://images.unsplash.com/photo-1621416894569-0f39ed31d247");}
+        .card:hover {
+            transform: translateY(-8px);
+        }
 
-100%{background-image:url("https://images.unsplash.com/photo-1593697821252-0c9137d9fc45");}
+        .card img {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            /* Cinematic color grading */
+            filter: contrast(1.15) saturate(1.2) brightness(0.85); 
+            transition: filter 0.5s ease, transform 0.5s ease;
+        }
 
-}
+        .card:hover img {
+            filter: contrast(1.05) saturate(1.1) brightness(1); 
+            transform: scale(1.03);
+        }
 
-/* overlay */
+        .card h4 {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background: linear-gradient(transparent, rgba(0,0,0,0.95));
+            padding: 30px 20px 20px;
+            font-size: 1.5rem;
+            text-align: left;
+            color: #fff;
+            letter-spacing: 0.5px;
+        }
 
-.hero::after{
-content:"";
-position:absolute;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.5);
-z-index:-1;
-}
+        /* --- Modals --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
 
-/* hero content */
+        .modal {
+            background: white;
+            padding: 3rem 2.5rem;
+            width: 90%;
+            max-width: 450px;
+            border-radius: 8px;
+            position: relative;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            color: #333;
+        }
 
-.hero-content{
-max-width:800px;
-animation:fadeUp 2s;
-}
+        .close-btn {
+            position: absolute;
+            top: 15px; right: 25px;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #999;
+            transition: 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
 
-.hero h1{
-font-size:55px;
-margin-bottom:20px;
-}
+        .close-btn:hover {
+            color: #111;
+        }
 
-.hero p{
-font-size:18px;
-margin-bottom:30px;
-line-height:1.6;
-}
+        .modal h3 {
+            margin-bottom: 30px;
+            color: var(--primary);
+            text-align: center;
+            font-size: 2rem;
+        }
 
-.hero button{
-padding:12px 25px;
-margin:10px;
-border:none;
-border-radius:6px;
-background:#198754;
-color:white;
-cursor:pointer;
-transition:0.3s;
-}
+        .modal input {
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background: #fafafa;
+            outline: none;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            transition: border 0.3s;
+        }
 
-.hero button:hover{
-transform:scale(1.05);
-background:#157347;
-}
+        .modal input:focus {
+            border-color: var(--primary);
+            background: white;
+        }
 
-@keyframes fadeUp{
-from{opacity:0; transform:translateY(40px);}
-to{opacity:1; transform:translateY(0);}
-}
+        .modal button {
+            width: 100%;
+            padding: 14px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
 
-/* DESTINATIONS */
+        .modal button:hover {
+            background: #062454;
+        }
 
-.destinations{
-padding:80px 60px;
-background:#f5f7f3;
-text-align:center;
-}
+        .modal p {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.95rem;
+            color: #666;
+        }
 
-.destinations h2{
-color:#198754;
-margin-bottom:40px;
-}
-
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:25px;
-}
-
-/* CARD */
-
-.card{
-position:relative;
-overflow:hidden;
-border-radius:12px;
-cursor:pointer;
-}
-
-.card img{
-width:100%;
-height:250px;
-object-fit:cover;
-transition:0.5s;
-}
-
-.card:hover img{
-transform:scale(1.2);
-}
-
-.card-title{
-position:absolute;
-bottom:0;
-background:rgba(0,0,0,0.6);
-color:white;
-width:100%;
-padding:10px;
-font-size:18px;
-}
-
-/* ABOUT */
-
-.about{
-padding:80px 60px;
-text-align:center;
-}
-
-.about h2{
-color:#198754;
-margin-bottom:20px;
-}
-
-.about p{
-max-width:800px;
-margin:auto;
-line-height:1.8;
-}
-
-/* FOOTER */
-
-footer{
-background:#14532d;
-color:white;
-text-align:center;
-padding:20px;
-}
-
-</style>
+        .modal p a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.9rem;
+            font-weight: 300;
+        }
+    </style>
 </head>
-
 <body>
 
-<!-- NAVBAR -->
+    <header>
+        <h1>Local Connect</h1>
+        <nav>
+            <button onclick="openModal('loginModal')">Login</button>
+            <button onclick="openModal('registerModal')">Register</button>
+        </nav>
+    </header>
 
-<nav>
+    <section class="hero">
+        <h2>God's Own Country</h2>
+        <p>Your ultimate portal to the hidden gems, vibrant culture, and breathtaking landscapes of Kerala.</p>
+    </section>
 
-<h2>Kerala Tourism</h2>
+    <section class="details">
+        <h3>About Local Connect</h3>
+        <p><strong>Local Connect</strong> is an interactive platform designed to bridge the gap between enthusiastic travelers and authentic Kerala experiences. Whether you are seeking the tranquil backwaters of Alleppey, the misty tea gardens of Munnar, or the cultural vibrancy of Kochi, our platform curates the best local itineraries just for you.</p>
+        <p>By creating an account, users gain access to exclusive travel guides, community-reviewed local stays, interactive maps, and direct connections to trusted local guides. Register today to start building your personalized Kerala travel itinerary.</p>
+    </section>
 
-<div>
-<a href="login.html" class="login-btn">Login</a>
-<a href="register.html" class="register-btn">Register</a>
-</div>
+    <section class="gallery-section">
+        <h3>Cinematic Destinations</h3>
+        <p>A color-graded visual journey through Kerala's most iconic landscapes.</p>
+        <div class="gallery">
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1593693397690-362cb9666fc2?auto=format&fit=crop&w=800&q=80" alt="Munnar Tea Gardens">
+                <h4>Munnar Tea Estates</h4>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1593693411515-c20261bcad6e?auto=format&fit=crop&w=800&q=80" alt="Alleppey Houseboat">
+                <h4>Alleppey Backwaters</h4>
+            </div>
+            <div class="card">
+                <img src="wayanad.jpg" alt="Wayanad Wilderness">
+                <h4>Wayanad Wilderness</h4>
+            </div>
+            <div class="card">
+                <img src="varkala.jpg" alt="Varkala Cliff Beach">
+                <h4>Varkala Cliffs</h4>
+            </div>
+            <div class="card">
+                <img src="kochi.jpg">
+                <h4>Kochi</h4>
+            </div>
+            <div class="card">
+                <img src="kumarakom.jpg">
+                <h4>kumarakom</h4>
+            </div>
+        </div>
+    </section>
 
-</nav>
+    <footer>
+        <p>&copy; 2026 Local Connect Tourism Platform. All rights reserved.</p>
+    </footer>
 
-<!-- HERO -->
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal">
+            <span class="close-btn" onclick="closeModal('loginModal')">&times;</span>
+            <h3>Welcome Back</h3>
+            <form onsubmit="event.preventDefault(); alert('Login submitted!');">
+                <input type="email" placeholder="Email Address" required>
+                <input type="password" placeholder="Password" required>
+                <button type="submit">Log In</button>
+                <p>Don't have an account? <a href="#" onclick="switchModal('loginModal', 'registerModal')">Register here</a></p>
+            </form>
+        </div>
+    </div>
 
-<section class="hero">
+    <div class="modal-overlay" id="registerModal">
+        <div class="modal">
+            <span class="close-btn" onclick="closeModal('registerModal')">&times;</span>
+            <h3>Join Local Connect</h3>
+            <form onsubmit="event.preventDefault(); alert('Registration successful!');">
+                <input type="text" placeholder="Full Name" required>
+                <input type="email" placeholder="Email Address" required>
+                <input type="password" placeholder="Create Password" required>
+                <button type="submit">Create Account</button>
+                <p>Already have an account? <a href="#" onclick="switchModal('registerModal', 'loginModal')">Log in here</a></p>
+            </form>
+        </div>
+    </div>
 
-<div class="hero-content">
+    <script>
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+        }
 
-<h1>Discover God's Own Country 🌴</h1>
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
 
-<p>
-Explore Kerala’s breathtaking backwaters, misty hills, wildlife sanctuaries,
-and golden beaches. Our platform connects tourists with local guides to create
-authentic travel experiences across Kerala.
-</p>
+        function switchModal(closeId, openId) {
+            closeModal(closeId);
+            openModal(openId);
+        }
 
-<button onclick="document.querySelector('.destinations').scrollIntoView()">Explore Destinations</button>
-
-</div>
-
-</section>
-
-<!-- DESTINATIONS -->
-
-<section class="destinations">
-
-<h2>Popular Kerala Destinations</h2>
-
-<div class="grid">
-
-<div class="card">
-<img src="https://images.unsplash.com/photo-1593697821252-0c9137d9fc45">
-<div class="card-title">Alleppey Backwaters</div>
-</div>
-
-<div class="card">
-<img src="https://images.unsplash.com/photo-1605649487212-47bdab064df7">
-<div class="card-title">Munnar Hills</div>
-</div>
-
-<div class="card">
-<img src="https://images.unsplash.com/photo-1578659029999-95cbbfd4b7ab">
-<div class="card-title">Varkala Beach</div>
-</div>
-
-<div class="card">
-<img src="https://images.unsplash.com/photo-1583241800698-87ad7c8dbbb5">
-<div class="card-title">Wayanad Forest</div>
-</div>
-
-<div class="card">
-<img src="https://images.unsplash.com/photo-1621416894569-0f39ed31d247">
-<div class="card-title">Kochi City</div>
-</div>
-
-<div class="card">
-<img src="https://images.unsplash.com/photo-1605649487212-47bdab064df7">
-<div class="card-title">Tea Plantations</div>
-</div>
-
-</div>
-
-</section>
-
-<!-- ABOUT -->
-
-<section class="about">
-
-<h2>About Our Tourism Platform</h2>
-
-<p>
-This website is designed to help tourists explore the beauty of Kerala while
-connecting them with experienced local guides. Visitors can discover famous
-destinations, book tours, and experience authentic Kerala culture including
-backwater cruises, hill station adventures, wildlife exploration, and beach
-tourism.
-</p>
-
-</section>
-
-<footer>
-
-© 2026 Kerala Tourism Guide Platform 🌴
-
-</footer>
-
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            const login = document.getElementById('loginModal');
+            const register = document.getElementById('registerModal');
+            if (event.target == login) {
+                login.style.display = "none";
+            }
+            if (event.target == register) {
+                register.style.display = "none";
+            }
+        }
+    </script>
 </body>
-</html> 
+</html>
