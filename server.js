@@ -9,96 +9,97 @@ const db = require("./db");
 
 const app = express();
 
-/* ================= MIDDLEWARE ================= */
 app.use(cors());
 app.use(express.json());
 
-/* ================= STATIC FILES ================= */
-app.use(express.static(path.join(__dirname, "public")));
+/* ✅ 1. CACHE CONTROL (first) */
+app.use((req, res, next) => {
+  res.set("Cache-Control", "no-store");
+  next();
+});
 
-/* ================= HELPER ================= */
-const generateToken = (id, role) => {
-  return jwt.sign({ id, role }, process.env.JWT_SECRET || "secret123", {
-    expiresIn: "7d"
-  });
-};
+/* ✅ 2. MIDDLEWARE */
+app.use(express.json());
 
-/* ================= ROUTES ================= */
+/* ✅ 3. STATIC FILES */
+app.use(express.static("public"));
 
-/* ROOT → LOGIN PAGE */
+/* ✅ 4. ROOT ROUTE (PLACE HERE) */
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-/* ADMIN LOGIN */
-app.post("/api/auth/admin-login", (req, res) => {
-  const { username, password } = req.body;
+/* ================= REGISTER ================= */
+app.post("/api/register", async (req, res) => {
+  const { username, email, password } = req.body;
 
-  db.query("SELECT * FROM admin WHERE username=?", [username], async (err, data) => {
-    if (err) return res.status(500).json(err);
-    if (data.length === 0) return res.status(404).json({ message: "Admin not found" });
+  try {
+    const hashed = await bcrypt.hash(password, 10);
 
-    const admin = data[0];
-    const valid = await bcrypt.compare(password, admin.password);
+    db.query(
+      "INSERT INTO users (username,email,password,role) VALUES (?,?,?,?)",
+      [username, email, hashed, "tourist"],  // 🔥 default role
+      (err) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).json({ message: "User already exists" });
+        }
 
-    if (!valid) return res.status(400).json({ message: "Wrong password" });
+        res.json({ message: "Registered successfully" });
+      }
+    );
 
-    const token = generateToken(admin.admin_id, "admin");
-
-    res.json({
-      token,
-      role: "admin",
-      redirect: "/admin.html"
-    });
-  });
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
 });
 
-/* TOURIST LOGIN */
-app.post("/api/auth/tourist-login", (req, res) => {
-  const { email, password } = req.body;
+/* ================= LOGIN ================= */
+app.post("/api/login", (req, res) => {
+  const { identifier, password } = req.body;
 
-  db.query("SELECT * FROM tourist WHERE email=?", [email], async (err, data) => {
-    if (err) return res.status(500).json(err);
-    if (data.length === 0) return res.status(404).json({ message: "Tourist not found" });
+  db.query(
+    "SELECT * FROM users WHERE email=? OR username=?",
+    [identifier, identifier],
+    async (err, data) => {
 
-    const user = data[0];
-    const valid = await bcrypt.compare(password, user.password);
+      if (err) {
+        console.log(err);
+        return res.status(500).json({ message: "DB error" });
+      }
 
-    if (!valid) return res.status(400).json({ message: "Wrong password" });
+      if (data.length === 0) {
+        return res.status(404).json({ message: "User not found" });
+      }
 
-    const token = generateToken(user.tourist_id, "tourist");
+      const user = data[0];
 
-    res.json({
-      token,
-      role: "tourist",
-      redirect: "/tourist.html"
-    });
-  });
-});
+      const valid = await bcrypt.compare(password, user.password);
 
-/* GUIDE LOGIN */
-app.post("/api/auth/guide-login", (req, res) => {
-  const { phone } = req.body;
+      if (!valid) {
+        return res.status(400).json({ message: "Wrong password" });
+      }
 
-  db.query("SELECT * FROM guide WHERE phone=?", [phone], (err, data) => {
-    if (err) return res.status(500).json(err);
-    if (data.length === 0) return res.status(404).json({ message: "Guide not found" });
+      // 🔥 ROLE BASED REDIRECT
+      let redirect = "/touristdashboard.html";
 
-    const guide = data[0];
+      if (user.role === "guide") {
+        redirect = "/guidedashboard.html";
+      } 
+      else if (user.role === "admin") {
+        redirect = "/admindashboard.html";
+      }
 
-    const token = generateToken(guide.guide_id, "guide");
-
-    res.json({
-      token,
-      role: "guide",
-      redirect: "/guide.html"
-    });
-  });
+      res.json({
+        message: "Login successful",
+        role: user.role,
+        redirect
+      });
+    }
+  );
 });
 
 /* ================= SERVER ================= */
-const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => {
-  console.log(`🚀 Server running at http://localhost:${PORT}`);
+app.listen(5000, () => {
+  console.log("🚀 Server running at http://localhost:5000");
 });

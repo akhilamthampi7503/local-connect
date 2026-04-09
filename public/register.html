@@ -3,182 +3,141 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>Register | LocalConnect</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
     <style>
-        :root {
-            --kerala-green: #14452F;
-            --kerala-hover: #0d2e1f;
-            --text-main: #1a1a1a;
-            --text-muted: #57606f;
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
         }
-
         body {
-            height: 100vh;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            /* Using the local image background with a dark green overlay */
-            background: linear-gradient(rgba(20, 69, 47, 0.7), rgba(20, 69, 47, 0.7)), 
-                        url('beach.jpg'); 
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
             padding: 20px;
         }
-
         .container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
             width: 100%;
-            max-width: 420px;
-            background: rgba(255, 255, 255, 0.98);
-            padding: 45px;
-            border-radius: 24px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-            animation: fadeIn 0.6s ease-out;
+            max-width: 400px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
         }
-
         h2 {
             text-align: center;
-            margin-bottom: 25px;
-            color: var(--kerala-green);
-            font-weight: 800;
-            font-size: 30px;
-            letter-spacing: -1px;
+            margin-bottom: 10px;
+            color: #14452F;
         }
-
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
         input, select {
             width: 100%;
-            padding: 14px 16px;
+            padding: 12px;
             margin: 10px 0;
-            border-radius: 12px;
-            border: 1.5px solid #dcdde1;
-            font-size: 15px;
-            outline: none;
-            transition: all 0.3s ease;
-            background: #ffffff;
-            color: var(--text-main);
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
         }
-
-        input:focus, select:focus {
-            border-color: var(--kerala-green);
-            box-shadow: 0 0 0 4px rgba(20, 69, 47, 0.1);
-        }
-
-        /* Styling the placeholder text */
-        input::placeholder {
-            color: #a0a0a0;
-        }
-
         button {
             width: 100%;
-            padding: 15px;
-            margin-top: 15px;
-            background: var(--kerala-green);
-            border: none;
+            padding: 12px;
+            background: #14452F;
             color: white;
+            border: none;
+            border-radius: 5px;
             font-size: 16px;
-            font-weight: 600;
-            border-radius: 12px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(20, 69, 47, 0.2);
+            margin-top: 10px;
         }
-
         button:hover {
-            background: var(--kerala-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            background: #0d2e1f;
         }
-
-        button:active {
-            transform: scale(0.98);
+        .message {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 14px;
+            display: none;
         }
-
-        /* Navigation back to login */
+        .error {
+            background: #fee;
+            color: #c00;
+            display: block;
+        }
+        .success {
+            background: #e8f5e9;
+            color: #2e7d32;
+            display: block;
+        }
         .login-link {
             text-align: center;
-            margin-top: 25px;
+            margin-top: 20px;
             font-size: 14px;
-            color: var(--text-muted);
         }
-
         .login-link a {
-            color: var(--kerala-green);
+            color: #14452F;
             text-decoration: none;
-            font-weight: 700;
+            font-weight: 600;
         }
-
-        .login-link a:hover {
-            text-decoration: underline;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .version {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 11px;
+            color: #999;
         }
     </style>
-
 </head>
-
 <body>
-
     <div class="container">
-        <h2>Create Account</h2>
+        <h2> LocalConnect</h2>
+        <div class="subtitle">Create your account</div>
+       <form id="registerForm">
+  <input id="username" placeholder="Username" required>
+  <input id="email" placeholder="Email" required>
+  <input id="password" type="password" placeholder="Password" required>
+  <button>Register</button>
+</form>
 
-        <form id="registerForm">
-            <input type="text" placeholder="Full Name" required>
-            <input type="email" placeholder="Email Address" required>
-            <input type="password" placeholder="Password" required>
-
-            <select id="role" required>
-                <option value="">Select Role</option>
-                <option value="guide">Guide</option>
-                <option value="tourist">Tourist</option>
-                <option value="admin">Admin</option>
-            </select>
-
-            <button type="submit">Register Now</button>
-        </form>
-
+        
+        <div id="message"></div>
+        
         <div class="login-link">
-            Already a member? <a href="login.html">Sign In</a>
+            Already have an account? <a href="login.html">Sign In</a>
+        </div>
+        <div class="version">
+            Version 2.0 - Cache Fixed
         </div>
     </div>
 
-    <script>
-        document.getElementById("registerForm").addEventListener("submit", function(e){
-            e.preventDefault();
+   <script>
+document.getElementById("registerForm").addEventListener("submit", async (e)=>{
+  e.preventDefault();
 
-            let role = document.getElementById("role").value;
+  const res = await fetch("/api/register", {
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body: JSON.stringify({
+      username: username.value,
+      email: email.value,
+      password: password.value
+    })
+  });
 
-            if(role === "guide"){
-                alert("Guide Registration Successful");
-            }
-            else if(role === "tourist"){
-                alert("Tourist Registration Successful");
-            }
-            else if(role === "admin"){
-                alert("Admin Registration Successful");
-            }
-            else{
-                alert("Please select a role");
-            }
-        });
-    </script>
-
+  const data = await res.json();
+  alert(data.message);
+});
+</script>
 </body>
 </html>
